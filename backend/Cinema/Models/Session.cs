@@ -7,7 +7,14 @@ namespace Cinema.Models
         public Guid Id { get; set; }
         public TimeOnly Start_time { get; set; }
         public TimeOnly End_time { get; set; }
-        public DateOnly Data { get; set; }
+
+        // Отримуємо час у київському часовому поясі
+        private static readonly TimeZoneInfo kyivTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Kiev");
+
+        // Автоматична ініціалізація дати з урахуванням часового поясу
+        public DateOnly Date { get; set; } = DateOnly.FromDateTime(
+            TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, kyivTimeZone)
+        );
         public TimeSpan Duration { get; set; }
 
         //1:N

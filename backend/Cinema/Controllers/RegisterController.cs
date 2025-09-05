@@ -51,13 +51,18 @@ namespace Cinema.Controllers
                 return BadRequest("User with that email already exists");
             }
 
+            if (userDto.Age < 1 || userDto.Age > 100)
+            {
+                return BadRequest("Age must be between 1 and 100.");
+            }
 
             var user = new User
             {
                 UserName = userDto.Username,
                 Email = userDto.Email,
                 Password = userDto.Password,
-                Role = "User"
+                Role = "User",
+                Age = userDto.Age
             };
 
             // Реєстрація користувача

@@ -14,7 +14,10 @@ namespace Cinema.Models
         //1:N(U:R)
         public List<Review> Reviews { get; set; } = new List<Review>();
 
-        //1:N(U:Sn)
+        //N:M(U:S)
         public List<Snack> Snacks { get; set; } = new List<Snack>();
+
+        //1:N (U:H)
+        public List<History> Histories { get; set; } = new List<History>();
     }
 }

@@ -10,9 +10,12 @@ namespace Cinema.Models.Configurations
             builder.HasKey(x => x.Id);
 
             //1:N(U:Sn)
-            builder.HasOne(s => s.User)
-                .WithMany(u => u.Snacks)
-                .HasForeignKey(k => k.UserId);
+            builder.HasMany(s => s.Users)
+                    .WithMany(u => u.Snacks);
+
+            //M:N
+            builder.HasMany(s => s.Sales)
+               .WithMany(s => s.Snacks);
         }
     }
 }

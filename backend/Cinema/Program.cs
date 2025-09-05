@@ -1,20 +1,31 @@
 using Cinema.Data;
 using Cinema.Models;
+using Cinema.Test;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+        options.SerializerSettings.Formatting = Formatting.Indented; // Р”Р»СЏ СЏРІРЅРѕРіРѕ С„РѕСЂРјР°С‚СѓРІР°РЅРЅСЏ
+    });
 
-//Додаткові налаштування Swagger для LoginController
+// DI РґР»СЏ С‚РІРѕС”С— Р»РѕРіС–РєРё Р· РґРёСЃРєРѕРЅС‚РѕРј
+builder.Services.AddScoped<IDiscountService, ApplaySale>();
+
+// Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
@@ -49,62 +60,64 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-});
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+// Identity
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+// JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-    .AddJwtBearer(options =>
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
-        };
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+    };
+});
 
-    });
-
+// Authorization Policies
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "Jeen Studio", configurePolicy: policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5173");
-        policyBuilder.AllowAnyHeader();
-        policyBuilder.AllowAnyMethod();
-        policyBuilder.AllowCredentials();
+        policyBuilder.WithOrigins("http://localhost:5173")
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials();
     });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ContosoRecipes v1"));
 }
 
+// Seed Admin/User roles
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

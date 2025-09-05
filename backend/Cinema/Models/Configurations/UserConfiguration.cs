@@ -19,10 +19,13 @@ namespace Cinema.Models.Configurations
             builder.HasMany(u => u.Reviews)
                     .WithOne(r => r.User)
                     .HasForeignKey(k => k.UserId)
-                    .OnDelete(DeleteBehavior.Cascade); 
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            //1:N
+            // M:N
             builder.HasMany(u => u.Snacks)
+                    .WithMany(s => s.Users);
+            //1:N
+            builder.HasMany(u => u.Histories)
                     .WithOne(h => h.User)
                     .HasForeignKey(k => k.UserId)
                     .OnDelete(DeleteBehavior.Cascade);

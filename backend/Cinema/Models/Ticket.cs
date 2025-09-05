@@ -1,4 +1,6 @@
-﻿namespace Cinema.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Cinema.Models
 {
     public class Ticket
     {
@@ -11,10 +13,16 @@
         //N:1 (T:U)
         //не Guid Id, бо IdentityUser має свій Id типу string
         public string? UserId { get; set; }
+        [JsonIgnore]
         public User? User { get; set; }
 
         //N:1 (T:S)
         public Guid SessionId { get; set; }
         public Session? Session { get; set; }
+
+        //1:N (T:H)
+        public List<History> Histories { get; set; } = new List<History>();
+        //M:N
+        public List<Sale> Sales { get; set; } = new List<Sale>();
     }
 }

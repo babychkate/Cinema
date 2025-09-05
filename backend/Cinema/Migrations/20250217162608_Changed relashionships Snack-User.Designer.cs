@@ -4,6 +4,7 @@ using Cinema.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cinema.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250217162608_Changed relashionships Snack-User")]
+    partial class ChangedrelashionshipsSnackUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,51 +98,6 @@ namespace Cinema.Migrations
                     b.ToTable("Halls");
                 });
 
-            modelBuilder.Entity("Cinema.Models.History", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ActionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("FilmId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FilmName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Seat_number")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TicketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url_of_page")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmId");
-
-                    b.HasIndex("TicketId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Histories");
-                });
-
             modelBuilder.Entity("Cinema.Models.Location", b =>
                 {
                     b.Property<Guid>("Id")
@@ -188,43 +146,13 @@ namespace Cinema.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("Cinema.Models.Sale", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Discount")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("Discount_type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("For_what")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Is_Active")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sales");
-                });
-
             modelBuilder.Entity("Cinema.Models.Session", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("Date")
+                    b.Property<DateOnly>("Data")
                         .HasColumnType("date");
 
                     b.Property<TimeSpan>("Duration")
@@ -265,8 +193,6 @@ namespace Cinema.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Snacks");
                 });
@@ -529,36 +455,6 @@ namespace Cinema.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SaleSnack", b =>
-                {
-                    b.Property<Guid>("SalesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SnacksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SalesId", "SnacksId");
-
-                    b.HasIndex("SnacksId");
-
-                    b.ToTable("SaleSnack");
-                });
-
-            modelBuilder.Entity("SaleTicket", b =>
-                {
-                    b.Property<Guid>("SalesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TicketsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SalesId", "TicketsId");
-
-                    b.HasIndex("TicketsId");
-
-                    b.ToTable("SaleTicket");
-                });
-
             modelBuilder.Entity("SnackUser", b =>
                 {
                     b.Property<Guid>("SnacksId")
@@ -583,31 +479,6 @@ namespace Cinema.Migrations
                         .IsRequired();
 
                     b.Navigation("Location");
-                });
-
-            modelBuilder.Entity("Cinema.Models.History", b =>
-                {
-                    b.HasOne("Cinema.Models.Film", "Film")
-                        .WithMany("Histories")
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-
-                    b.HasOne("Cinema.Models.Ticket", "Ticket")
-                        .WithMany("Histories")
-                        .HasForeignKey("TicketId");
-
-                    b.HasOne("Cinema.Models.User", "User")
-                        .WithMany("Histories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Film");
-
-                    b.Navigation("Ticket");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Cinema.Models.Review", b =>
@@ -732,36 +603,6 @@ namespace Cinema.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SaleSnack", b =>
-                {
-                    b.HasOne("Cinema.Models.Sale", null)
-                        .WithMany()
-                        .HasForeignKey("SalesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cinema.Models.Snack", null)
-                        .WithMany()
-                        .HasForeignKey("SnacksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SaleTicket", b =>
-                {
-                    b.HasOne("Cinema.Models.Sale", null)
-                        .WithMany()
-                        .HasForeignKey("SalesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cinema.Models.Ticket", null)
-                        .WithMany()
-                        .HasForeignKey("TicketsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SnackUser", b =>
                 {
                     b.HasOne("Cinema.Models.Snack", null)
@@ -779,8 +620,6 @@ namespace Cinema.Migrations
 
             modelBuilder.Entity("Cinema.Models.Film", b =>
                 {
-                    b.Navigation("Histories");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("Sessions");
@@ -801,15 +640,10 @@ namespace Cinema.Migrations
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("Cinema.Models.Ticket", b =>
-                {
-                    b.Navigation("Histories");
-                });
-
             modelBuilder.Entity("Cinema.Models.User", b =>
                 {
-                    b.Navigation("Histories");
                     b.Navigation("Reviews");
+
                     b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618

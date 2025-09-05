@@ -1,6 +1,5 @@
 ﻿using Cinema.Contracts;
 using Cinema.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -50,8 +49,8 @@ namespace Cinema.Controllers
             }
 
             //GenerateJwtToken - власний метод
-            var token = GenerateJwtToken(user);
-            return Ok(new { Token = token });
+            var usertoken = GenerateJwtToken(user);
+            return Ok(new { token = usertoken });
 
         }
 

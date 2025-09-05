@@ -1,4 +1,6 @@
-﻿namespace Cinema.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Cinema.Models
 {
     public class Snack
     {
@@ -6,8 +8,10 @@
         public string Name { get; set; }
         public int Price { get; set; }
 
-        //N:1(S:U)
-        public string UserId { get; set; }
-        public User? User { get; set; }
+        //N:M(S:U)
+        public List<User> Users { get; set; } = new List<User>();
+
+        //M:N
+        public List<Sale> Sales { get; set; }
     }
 }

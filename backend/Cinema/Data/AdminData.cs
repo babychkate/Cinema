@@ -30,7 +30,8 @@ namespace Cinema.Data
                     UserName = "Katya",
                     Email = "katyaAdmin@gmail.com",
                     Role = "Admin",
-                    Password = "slay!Kat976"
+                    Password = "slay!Kat976",
+                    Age = 19
                 };
 
                 var result = await userManager.CreateAsync(katya, "slay!Kat976");
@@ -48,7 +49,8 @@ namespace Cinema.Data
                     UserName = "Roksolana",
                     Email = "roksolanaAdmin@gmail.com",
                     Role = "Admin",
-                    Password = "aha!Rok234"
+                    Password = "aha!Rok234",
+                    Age = 18
                 };
 
                 var result2 = await userManager.CreateAsync(roksolana, "aha!Rok234");
@@ -66,7 +68,8 @@ namespace Cinema.Data
                     UserName = "Yarik",
                     Email = "yarikAdmin@gmail.com",
                     Role = "Admin",
-                    Password = "syaduuu!Yar716"
+                    Password = "syaduuu!Yar716",
+                    Age = 19
                 };
 
                 var result3 = await userManager.CreateAsync(yarik, "syaduuu!Yar716");

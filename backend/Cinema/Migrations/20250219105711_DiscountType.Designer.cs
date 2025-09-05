@@ -4,6 +4,7 @@ using Cinema.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cinema.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250219105711_DiscountType")]
+    partial class DiscountType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,9 +110,6 @@ namespace Cinema.Migrations
                     b.Property<Guid?>("FilmId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FilmName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -128,6 +128,9 @@ namespace Cinema.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("filmName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -265,8 +268,6 @@ namespace Cinema.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Snacks");
                 });
@@ -592,7 +593,6 @@ namespace Cinema.Migrations
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-
                     b.HasOne("Cinema.Models.Ticket", "Ticket")
                         .WithMany("Histories")
                         .HasForeignKey("TicketId");
@@ -809,7 +809,9 @@ namespace Cinema.Migrations
             modelBuilder.Entity("Cinema.Models.User", b =>
                 {
                     b.Navigation("Histories");
+
                     b.Navigation("Reviews");
+
                     b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618

@@ -18,6 +18,8 @@ namespace Cinema.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<History> Histories { get; set; }
+        public DbSet<Sale> Sales { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,12 @@ namespace Cinema.Data
             modelBuilder.ApplyConfiguration(new TicketConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new SnackConfiguration());
+            modelBuilder.ApplyConfiguration(new HistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new SaleConfiguration());
+
+            modelBuilder.Entity<Sale>()
+                .Property(s => s.Discount)
+                .HasPrecision(10, 2);
 
             base.OnModelCreating(modelBuilder);
         }

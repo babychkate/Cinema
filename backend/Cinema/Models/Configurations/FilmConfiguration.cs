@@ -12,7 +12,14 @@ namespace Cinema.Models.Configurations
             //M:N
             builder.HasMany(f => f.Genres)
                     .WithMany(g => g.Films);
-                    
+
+            //1:N
+            builder.HasMany(f => f.Histories)
+               .WithOne(h => h.Film)
+               .HasForeignKey(k => k.FilmId)
+               .OnDelete(DeleteBehavior.SetNull); 
+
+
         }
     }
 }

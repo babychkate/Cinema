@@ -18,6 +18,15 @@ namespace Cinema.Models.Configurations
             builder.HasOne(t => t.Session)
                     .WithMany(s => s.Tickets)
                     .HasForeignKey(k => k.SessionId);
+
+            //1:N
+            builder.HasMany(t => t.Histories)
+                    .WithOne(h => h.Ticket)
+                    .HasForeignKey(k => k.TicketId);
+
+            //M:N
+            builder.HasMany(s => s.Sales)
+               .WithMany(s => s.Tickets);
         }
     }
 }
