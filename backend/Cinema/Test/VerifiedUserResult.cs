@@ -8,5 +8,4 @@ namespace Cinema.Test
     public string? UserId { get; set; }
 }
 
-
 }
