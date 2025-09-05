@@ -27,3 +27,6 @@ const SessionCard = ({ session }) => {
 };
 
 export default SessionCard;
+
+// opens a concrete session when clicking on that card
+// session includes time, date, hall, sits, film name

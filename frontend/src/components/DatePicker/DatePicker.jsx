@@ -10,7 +10,7 @@ const DatePicker = () => {
     const [date, setDate] = useState(new Date());
 
     return (
-        <Popover>
+        <Popover >
             <PopoverTrigger asChild>
                 <Button
                     variant={"outline"}
@@ -28,3 +28,8 @@ const DatePicker = () => {
 }
 
 export default DatePicker;
+
+// allows choose data for sessions
+//DOESNOT NEED ANYTHING
+
+// МОЖНА ЗРОБИТИ ЩОБ КНОПКИ НЕ ПІДСВІЧУВАЛИСЯ ЯКЩО ВИБРАНО КАЛЕНДАР

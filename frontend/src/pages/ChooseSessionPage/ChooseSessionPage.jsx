@@ -1,10 +1,9 @@
 import DatePicker from '@/components/DatePicker/DatePicker';
 import GoToHomePage from '@/components/GoToHomePage/GoToHomePage';
-import Location from '@/components/Location/Location';
 import SessionCard from '@/components/SessionCard/SessionCard';
 import { Button } from '@/components/ui/button';
 import { getSessionList } from '@/redux/Session/Action';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ChooseSessionPage = () => {
@@ -52,3 +51,10 @@ const ChooseSessionPage = () => {
 }
 
 export default ChooseSessionPage;
+
+// shows Choose session and path back to / root
+// allows choosing day to see sessions
+// allows use calendar
+// shows list of components - session cards
+
+//NEEDS SESSION LIST

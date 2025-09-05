@@ -1,12 +1,11 @@
 import GoToHomePage from '@/components/GoToHomePage/GoToHomePage';
-import MovieDetails from '@/components/MovieDetails/MovieDetails';
 import SendReviewCard from '@/components/SendReviewCard/SendReviewCard';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { getFilmList } from '@/redux/Film/Action';
 import { deleteReview, getReviewsByFilmId } from '@/redux/Review/Action';
 import { getSessionList } from '@/redux/Session/Action';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -16,8 +15,6 @@ const FilmReviewsPage = () => {
     const navigate = useNavigate();
     const user = useSelector(store => store.auth?.user || null);
     const films = useSelector(store => store.film?.films || []);
-
-    console.log(user);
 
     const currentFilmNumber = useSelector(store => store.film?.currentFilmNumber || 1);
     const selectedLocation = useSelector(store => store.location?.selectedLocation || null);
@@ -69,7 +66,7 @@ const FilmReviewsPage = () => {
                             }
                         </div>
                         <span>•</span>
-                        <span>{film?.Age_limit + "+" || "Film age rating"}</span>
+                        <span>{film?.Age_limit ? `${film?.Age_limit}+` : "Film age rating"}</span>
                     </div>
                 </div>
             </div>
@@ -117,3 +114,11 @@ const FilmReviewsPage = () => {
 }
 
 export default FilmReviewsPage;
+
+
+// allows going to home page
+// allows to choose session for this film
+// allows sending review about concrete film
+// shows users' reviews
+// allows to delet review if you are an author
+// NEEDS USERS FILMS LOCATIONS REVIEWS

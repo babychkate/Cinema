@@ -84,3 +84,9 @@ const SendReviewCard = ({ filmId }) => {
 };
 
 export default SendReviewCard;
+
+// gives structure to review card
+// shows user info
+// sends your review to others
+// output new reviews
+// NEEDS USERS LIST

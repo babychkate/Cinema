@@ -7,10 +7,13 @@ const InCinemaPage = () => {
         <div className="py-4 px-5 flex flex-col min-h-screen">
             <NowInCinema />
             <div className="mt-40">
-                <MovieDetails />
+            <MovieDetails />
             </div>
         </div>
     );
 };
 
 export default InCinemaPage;
+
+//shows list of films
+//shows description under each film

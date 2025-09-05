@@ -10,15 +10,15 @@ const PersonalInfoCard = ({ user }) => {
         <>
             <div>
                 <CardDescription className="text-gray-400">Name:</CardDescription>
-                <span>{user?.username}</span>
+                <span>{user?.username || "Username"}</span>
             </div>
             <div>
                 <CardDescription className="text-gray-400">Email:</CardDescription>
-                <span>{user?.email}</span>
+                <span>{user?.email || "Email"}</span>
             </div>
             <div>
                 <CardDescription className="text-gray-400">Age:</CardDescription>
-                <span>{user?.Age}</span>
+                <span>{user?.Age || "Age"}</span>
             </div>
             <div>
                 <CardDescription className="text-gray-400">Password:</CardDescription>
@@ -32,3 +32,6 @@ const PersonalInfoCard = ({ user }) => {
 }
 
 export default PersonalInfoCard;
+
+// shows personal data for concrete user
+// hide password data

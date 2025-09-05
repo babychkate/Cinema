@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { getUserProfile, login, register } from '@/redux/Auth/Action';
-import React, { useEffect, useState } from 'react';
+import { login, register } from '@/redux/Auth/Action';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -130,3 +130,6 @@ const RegisterLoginCard = () => {
 }
 
 export default RegisterLoginCard
+
+// shows register form - all fields like name, email, password and age
+// shows login form - few fields like email and password

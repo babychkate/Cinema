@@ -41,3 +41,5 @@ const SessionsList = () => {
 }
 
 export default SessionsList;
+
+// shows sits for concrete session in hall

@@ -18,7 +18,7 @@ const UserAccountDetails = () => {
         <div className="flex flex-col md:flex-row gap-6 p-8 text-black mx-auto transform translate-y-[-50px]">
             <div className="w-1/3 flex flex-col items-center md:items-start">
                 <div className="w-24 h-24 rounded-full shadow-lg flex items-center justify-center mb-4">
-                    <span>{user?.username}</span>
+                    <span>{user?.username || "User"}</span>
                 </div>
                 <nav className="flex flex-col gap-2 text-black w-full">
                     <a href="#" onClick={() => handleLinkClick('personalInfo')} className={`${cardContent === 'personalInfo' ? 'underline' : ''}`}>

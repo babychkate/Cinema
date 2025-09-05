@@ -21,8 +21,6 @@ const PurchaseHistoryCard = () => {
     dispatch(getUserFilmHistory());
   }, [dispatch]);
 
-  console.log(purchases);
-
   return (
     <div>
       {purchases.length > 0 ? (

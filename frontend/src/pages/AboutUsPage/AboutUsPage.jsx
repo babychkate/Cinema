@@ -79,3 +79,6 @@ const AboutUsPage = () => {
 }
 
 export default AboutUsPage;
+
+//shows static info about creators
+// NEEDS PHOTOS

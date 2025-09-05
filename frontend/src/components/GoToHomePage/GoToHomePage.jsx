@@ -21,3 +21,8 @@ const GoToHomePage = ({ message, navigation }) => {
 };
 
 export default GoToHomePage;
+
+// allows us to return to concrete path
+// pretty reusable because of navigate and message props
+
+//DOESNOT NEED ANYTHING

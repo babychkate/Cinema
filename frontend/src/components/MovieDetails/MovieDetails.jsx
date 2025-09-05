@@ -41,13 +41,12 @@ const MovieDetails = () => {
           <span>•</span>
           <div>
             {
-              film?.Genres.map(genre => {
-                return <span>{genre}</span>
-              })
+              (film?.Genres?.length ? film.Genres :
+                ["Film genre"]).map(genre => <span>{genre}</span>)
             }
           </div>
           <span>•</span>
-          <span>{film?.Age_limit + "+" || "Film age rating"}</span>
+          <span>{film?.Age_limit ? `${film.Age_limit}+` : "Film age rating"}</span>
         </div>
         <Button variant="destructive" size="sm" onClick={() => navigate(`/${film?.Id}/reviews`)}>See reviews</Button>
       </div>
@@ -56,3 +55,15 @@ const MovieDetails = () => {
 }
 
 export default MovieDetails;
+
+// right side
+// shows Film name, description
+// allows to choose session for specific film (uses id)
+
+// left side
+// shows film rating, release year, genre, age rating
+// allows see reviews for specific film (uses id)
+
+//use navigate hook for switching pages
+
+//NEEDS SESSIONS AND FILMS LISTS

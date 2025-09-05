@@ -62,3 +62,10 @@ const NowInCinema = () => {
 }
 
 export default NowInCinema;
+
+// shows Now in Cinema
+// shows chevrons symbols
+// allows increment and decrement film number
+// side film changing mechanism
+
+//NEEDS FILMS LIST

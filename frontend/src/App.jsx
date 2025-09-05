@@ -30,25 +30,31 @@ const App = () => {
 };
 
 const MainApp = () => {
+  //отримуємо користувача із auth
+  //якщо користувач змінюється, то наш компонент ререндериться
   const user = useSelector(store => store.auth.user);
 
+  //логічна змінна для логічного рендерингу
   const isAdmin = user?.roles?.includes("Admin");
 
   return (
     <div>
       <Navbar />
-      <ToastContainer position="top-center" autoClose={3000} />
+      { false && "//Спливаюче повідомлення"}
+      <ToastContainer position="top-center" autoClose={1500} />
 
       {isAdmin ?
         <AdminPanelPage />
         :
         <Routes>
           <Route path='/' element={<InCinemaPage />} />
-          <Route path='/auth' element={<AuthPage />} />
-          <Route path='/about-us' element={<AboutUsPage />} />
-          <Route path='/my-profile' element={<UserProfilePage />} />
           <Route path='/:locationId/sessions' element={<ChooseSessionPage />} />
           <Route path='/:filmId/reviews' element={<FilmReviewsPage />} />
+          <Route path='/auth' element={<AuthPage />} />
+          <Route path='/about-us' element={<AboutUsPage />} />
+          
+          <Route path='/my-profile' element={<UserProfilePage />} />
+          
 
           <Route element={<ProtectedRoute />}>
             <Route path='/:locationId/sessions/:sessionId' element={<HallPage />} />
@@ -66,3 +72,8 @@ const MainApp = () => {
 };
 
 export default App;
+
+// responsible for routing
+// shows navbar ALWAYS
+// shows admin pannel if user admin
+// shows different pages depending on url path
