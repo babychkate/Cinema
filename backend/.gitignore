@@ -1,1 +1,9 @@
 .vs/ 
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+appsettings.Development.json
+appsettings.json
+
