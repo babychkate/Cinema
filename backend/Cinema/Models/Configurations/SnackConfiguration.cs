@@ -12,10 +12,6 @@ namespace Cinema.Models.Configurations
             //1:N(U:Sn)
             builder.HasMany(s => s.Users)
                     .WithMany(u => u.Snacks);
-
-            //M:N
-            builder.HasMany(s => s.Sales)
-               .WithMany(s => s.Snacks);
         }
     }
 }

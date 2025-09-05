@@ -10,8 +10,5 @@ namespace Cinema.Models
 
         //N:M(S:U)
         public List<User> Users { get; set; } = new List<User>();
-
-        //M:N
-        public List<Sale> Sales { get; set; }
     }
 }

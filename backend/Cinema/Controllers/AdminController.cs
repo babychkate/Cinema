@@ -402,7 +402,7 @@ namespace Cinema.Controllers
                         Id = Guid.NewGuid(),
                         Seat_number = i,
                         Status = "available",
-                        Price = random.Next(100, 431), 
+                        Price = random.Next(100, 431),
                         Book_buy_data = DateTime.UtcNow,
                         SessionId = session.Id
                     });
@@ -556,130 +556,6 @@ namespace Cinema.Controllers
             __dbContext.Sessions.Remove(sessionToDelete);
             var result = await __dbContext.SaveChangesAsync();
             return Ok(result);
-        }
-
-
-
-        //SALES***********************************************************************************************
-        [HttpGet("ReadSales")]
-        public async Task<IActionResult> ReadSales() {
-            var sales = await __dbContext.Sales
-                .Select(s => new { 
-                    s.Id,
-                    s.Discount,
-                    s.Description,
-                    s.Is_Active,
-                    s.For_what,
-                    s.Discount_type
-                }).ToListAsync();
-
-            if (sales == null || !sales.Any()) {
-                return NotFound("No sales found");
-            }
-
-            return Ok(sales);   
-        }
-
-        [HttpPost("CreateSale")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> CreateSale([FromBody] SaleDto saleDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var sale = new Sale
-            {
-                Discount = saleDto.Discount,
-                Description = saleDto.Description,
-                For_what = saleDto.ForWhat.ToString(),
-                Discount_type = saleDto.DiscountType.ToString(),
-                Is_Active = true
-            };
-
-            __dbContext.Sales.Add(sale);
-
-            try
-            {
-                await __dbContext.SaveChangesAsync();
-                return CreatedAtAction(nameof(CreateSale), new { id = sale.Id }, sale);
-            }
-            catch (Exception ex) {
-                var innerException = ex.InnerException?.Message ?? "No inner exception";
-                return StatusCode(500, $"Internal server error: {ex.Message}. Inner Exception: {innerException}");
-            }
-        }
-
-        [HttpPatch("UpdateSale/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateSale(Guid id, [FromBody] List<PatchRequestDto> patches)
-        {
-            if (patches == null || !patches.Any())
-            {
-                return BadRequest("Patchers request is empty");
-            }
-
-            var  sale = await __dbContext.Sales
-                .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (sale == null) { 
-                return NotFound("Sale not found");
-            }
-
-            foreach (var patch in patches) {
-                switch (patch.Path.ToLower()) {
-                    case "/discount":
-                        if (decimal.TryParse(patch.Value, out decimal decimalValue)) {
-                            if (decimalValue >= 1 && decimalValue <= 100)
-                            {
-                                sale.Discount = decimalValue;
-                            }
-                        }
-                        break;
-                    case "/description":
-                        sale.Description = patch.Value; 
-                        break;
-                    case "/forwhat":
-                        if (Enum.TryParse<ForWhatType>(patch.Value, true, out ForWhatType forWhatValue))
-                        {
-                            sale.For_what = forWhatValue.ToString();
-                        }
-                        break;
-                    case "/discounttype":
-                        if (Enum.TryParse<DiscountType>(patch.Value, true, out DiscountType discountValue))
-                        {
-                            sale.Discount_type = discountValue.ToString();
-                        }
-                        break;
-                    case "/isactive":
-                        if (bool.TryParse(patch.Value, out bool boolValue)) {
-                            sale.Is_Active = boolValue;
-                        }
-                        break;
-                    default:
-                        return BadRequest($"Invalid patch path: {patch.Path}");
-                }
-            }
-
-            await __dbContext.SaveChangesAsync();
-            return Ok("Sale updated successfully");
-        }
-
-        [HttpDelete("DeleteSale/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteSale(Guid id)
-        { 
-            var saleToDelete = await __dbContext.Sales
-                .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (saleToDelete == null) {
-                return BadRequest("Sale not found");
-            } 
-
-            __dbContext.Sales.Remove(saleToDelete);
-            var result = await __dbContext.SaveChangesAsync();
-            return Ok("Sale deleted successfully");
         }
     }
 }

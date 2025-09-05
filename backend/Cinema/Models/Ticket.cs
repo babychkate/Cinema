@@ -22,7 +22,5 @@ namespace Cinema.Models
 
         //1:N (T:H)
         public List<History> Histories { get; set; } = new List<History>();
-        //M:N
-        public List<Sale> Sales { get; set; } = new List<Sale>();
     }
 }

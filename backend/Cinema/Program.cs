@@ -1,6 +1,5 @@
 using Cinema.Data;
 using Cinema.Models;
-using Cinema.Test;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +19,6 @@ builder.Services.AddControllers()
         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
         options.SerializerSettings.Formatting = Formatting.Indented; // Для явного форматування
     });
-
-// DI для твоєї логіки з дисконтом
-builder.Services.AddScoped<IDiscountService, ApplaySale>();
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
